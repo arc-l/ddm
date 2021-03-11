@@ -1,2 +1,2 @@
-# ddm
+# DDM
 Blah
