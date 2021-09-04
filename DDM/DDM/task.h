@@ -596,3 +596,27 @@ inline bool check_multi_goal_path_feasibility(
     // Passed!
     return true;
 }
+
+inline OneShotTask get_dao_instance(std::string dao_file_name, Graph& g) {
+    // Readfile
+    std::vector<std::string> lines;
+    std::string temp;
+    std::ifstream map_file("dao-map/" + dao_file_name + ".instance");
+    if (map_file) {
+        while (std::getline(map_file, temp)) lines.push_back(temp);
+        map_file.close();
+    } else
+        throw "DAO file name error\n";
+    // Get num robots
+    size_t num_robots = atoi(lines[1].c_str());
+    std::cout << "Num robots " << num_robots << std::endl;
+    // Get obstacles
+    auto t = get_one_shot_task(num_robots, g, 0);
+    lines = std::vector<std::string>(lines.begin() + 2, lines.end());
+    for (size_t i = 0; i < num_robots; i++) {
+        auto line_ss = std::stringstream(lines[i]);
+        line_ss >> t.starts[i].x >> t.starts[i].y >> t.goals[i].x >>
+            t.goals[i].y;
+    }
+    return t;
+}

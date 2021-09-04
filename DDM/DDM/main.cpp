@@ -39,11 +39,15 @@
 
 int main() {
     load_database();  // Load database file. Takes around 5 seconds.
-    auto g = get_low_res_graph(
-        6, 6, 0.1);  // Construct a graph: 6x6 with ~10% obstacles
-    auto t = get_one_shot_task(
-        6, g,
-        0);  // Randomly generate a one shot task with 6 robots and graph g.
+                      // auto g = get_low_res_graph(
+    //    6, 6, 0.1);  // Construct a graph: 6x6 with ~10% obstacles
+    // auto t = get_one_shot_task(
+    //    6, g,
+    //    0);  // Randomly generate a one shot task with 6 robots and graph g.
+
+    auto g = get_dao_graph("tmp");
+    auto t = get_dao_instance("tmp", g);
+
     auto solver = DdmSolver();        // Initialize solver
     auto paths = solver.solve(t, g);  // Solve the problem
 
